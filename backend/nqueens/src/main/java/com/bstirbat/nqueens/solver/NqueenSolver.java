@@ -29,8 +29,8 @@ public class NqueenSolver {
 
         for(int c = 0; c < mat.length; c++) {
             if (isAllowed(constraints, r, c)) {
-                List<Constraint> newConstraints = determineNewConstraints(constraints, positions, r, c);
                 List<Position> newPositions = determineNewPositions(positions, r, c);
+                List<Constraint> newConstraints = determineNewConstraints(constraints, newPositions, r, c);
                 mat[r][c] = 1;
 
                 nQueen(newConstraints, newPositions, mat, r + 1);
