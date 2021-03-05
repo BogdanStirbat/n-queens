@@ -30,7 +30,7 @@ public class NqueenSolver {
         for(int c = 0; c < mat.length; c++) {
             if (isAllowed(constraints, r, c)) {
                 List<Position> newPositions = determineNewPositions(positions, r, c);
-                List<Constraint> newConstraints = determineNewConstraints(constraints, newPositions, r, c);
+                List<Constraint> newConstraints = determineNewConstraints(newPositions);
                 mat[r][c] = 1;
 
                 nQueen(newConstraints, newPositions, mat, r + 1);
@@ -50,13 +50,15 @@ public class NqueenSolver {
         return true;
     }
 
-    private List<Constraint> determineNewConstraints(List<Constraint> constraints, List<Position> positions, int r, int c) {
+    private List<Constraint> determineNewConstraints(List<Position> positions) {
         List<Constraint> newConstraints = new ArrayList<>();
 
-        newConstraints.addAll(constraints);
-        newConstraints.add(new SameRowConstraint(r));
-        newConstraints.add(new SameColumnConstraint(c));
-        newConstraints.add(new SameDiagonalConstraint(new Position(r, c)));
+        for(int i = 0; i < positions.size(); i++) {
+            Position p = positions.get(i);
+            newConstraints.add(new SameRowConstraint(p.r));
+            newConstraints.add(new SameColumnConstraint(p.c));
+            newConstraints.add(new SameDiagonalConstraint(p));
+        }
 
         for(int i = 0; i < positions.size(); i++) {
             for(int j = i + 1; j < positions.size(); j++) {
