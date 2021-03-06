@@ -7,7 +7,7 @@ import java.util.List;
 
 public class NqueenSolver {
 
-    public void solve(int N) {
+    public List<String> solve(int N) {
         int[][] mat = new int[N][N];
 
         for(int i = 0; i < N; i++) {
@@ -16,14 +16,23 @@ public class NqueenSolver {
             }
         }
 
+        List<String> solutions = new ArrayList<>();
+
         List<Constraint> constraints = new ArrayList<>();
         List<Position> positions = new ArrayList<>();
-        nQueen(constraints, positions, mat, 0);
+        nQueen(solutions, constraints, positions, mat, 0);
+
+        return solutions;
     }
 
-    private void nQueen(List<Constraint> constraints, List<Position> positions, int[][] mat, int r) {
+    private void nQueen(List<String> solutions, List<Constraint> constraints, List<Position> positions, int[][] mat, int r) {
         if (r == mat.length) {
-            printSolution(mat);
+            String currentSolution = generateSolution(mat);
+            solutions.add(currentSolution);
+
+            System.out.print(currentSolution);
+            System.out.println();
+            System.out.println();
             return;
         }
 
@@ -33,7 +42,7 @@ public class NqueenSolver {
                 List<Constraint> newConstraints = determineNewConstraints(newPositions);
                 mat[r][c] = 1;
 
-                nQueen(newConstraints, newPositions, mat, r + 1);
+                nQueen(solutions, newConstraints, newPositions, mat, r + 1);
 
                 mat[r][c] = 0;
             }
@@ -91,5 +100,18 @@ public class NqueenSolver {
         System.out.println();
         System.out.println();
         System.out.println();
+    }
+
+    private String generateSolution(int[][] mat) {
+        StringBuilder builder = new StringBuilder();
+
+        for(int i = 0; i < mat.length; i++) {
+            for(int j = 0; j < mat.length; j++) {
+                builder.append(mat[i][j]);
+            }
+            builder.append("\n");
+        }
+
+        return builder.toString();
     }
 }

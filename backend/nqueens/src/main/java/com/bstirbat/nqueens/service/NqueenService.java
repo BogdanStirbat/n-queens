@@ -1,6 +1,8 @@
 package com.bstirbat.nqueens.service;
 
+import java.util.List;
+
 public interface NqueenService {
 
-    void solve(int n);
+    List<String> solve(int n);
 }

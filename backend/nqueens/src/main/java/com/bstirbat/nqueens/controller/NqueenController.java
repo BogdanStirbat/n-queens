@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 public class NqueenController {
 
@@ -15,10 +17,8 @@ public class NqueenController {
     }
 
     @GetMapping("/nqeens/{n}")
-    public String generateNqeenSolution(@PathVariable("n") Integer n) {
+    public List<String> generateNqeenSolution(@PathVariable("n") Integer n) {
 
-        nqueenService.solve(n);
-
-        return "Solution is: " + n;
+        return nqueenService.solve(n);
     }
 }
