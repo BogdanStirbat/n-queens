@@ -2,12 +2,17 @@ package com.bstirbat.nqueens.solver.constraint;
 
 import com.bstirbat.nqueens.solver.Position;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Checks if chess position given as argument forms an angle, at any angle
  * For example: A1, C2, E3 are on an angle.
  *
- * Positions P1 (r1, c1), P2 (r2, c2), P3 (r3, c3) form an angle if and only if:
- * |r2 - r1| == |r3 - r2| && |c2 - c1| == |c3 - c2|
+ * Positions P1 (r1, c1), P2 (r2, c2), P3 (r3, c3), r1 < r2 < r3,  form an angle if and only if:
+ * (c2 - c1) * (r3 - r2) = (r2 - r1) * (c3 - c2)
  */
 public class SameAngleConstraint implements Constraint {
 
@@ -22,13 +27,17 @@ public class SameAngleConstraint implements Constraint {
     // Checks if P1 (r1, c1), P2 (r2, c2), P (r, c) forms an angle (see definition above)
     @Override
     public boolean forbids(Position p) {
-        return formsAnAngle(p1, p2, p);
-    }
+        List<Position> positions = new ArrayList<>();
+        positions.add(p1);
+        positions.add(p2);
+        positions.add(p);
 
-    // Checks if P1 (r1, c1), P2 (r2, c2), P3 (r3, c3) form an angle.
-    // See above for the formal condition
-    private boolean formsAnAngle(Position p1, Position p2, Position p3) {
-        return Math.abs(p2.r - p1.r) == Math.abs(p3.r - p2.r) &&
-                Math.abs(p2.c - p1.c) == Math.abs(p3.c - p2.c);
+        Collections.sort(positions, Comparator.comparingInt(sp -> sp.r));
+
+        Position sp1 = positions.get(0);
+        Position sp2 = positions.get(1);
+        Position sp3 = positions.get(2);
+
+        return (sp2.c - sp1.c) * (sp3.r - sp2.r) == (sp2.r - sp1.r) * (sp3.c - sp2.c);
     }
 }
