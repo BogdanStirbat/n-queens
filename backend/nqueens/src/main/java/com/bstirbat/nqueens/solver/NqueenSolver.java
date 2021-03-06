@@ -38,8 +38,9 @@ public class NqueenSolver {
 
         for(int c = 0; c < mat.length; c++) {
             if (isAllowed(constraints, r, c)) {
-                List<Position> newPositions = determineNewPositions(positions, r, c);
-                List<Constraint> newConstraints = determineNewConstraints(newPositions);
+                Position currentPosition = new Position(r, c);
+                List<Constraint> newConstraints = determineNewConstraints(constraints, positions, currentPosition);
+                List<Position> newPositions = determineNewPositions(positions, currentPosition);
                 mat[r][c] = 1;
 
                 nQueen(solutions, newConstraints, newPositions, mat, r + 1);
@@ -59,30 +60,25 @@ public class NqueenSolver {
         return true;
     }
 
-    private List<Constraint> determineNewConstraints(List<Position> positions) {
+    private List<Constraint> determineNewConstraints(List<Constraint> constraints, List<Position> positions, Position currentPosition) {
         List<Constraint> newConstraints = new ArrayList<>();
+        newConstraints.addAll(constraints);
 
-        for(int i = 0; i < positions.size(); i++) {
-            Position p = positions.get(i);
-            newConstraints.add(new SameRowConstraint(p.r));
-            newConstraints.add(new SameColumnConstraint(p.c));
-            newConstraints.add(new SameDiagonalConstraint(p));
-        }
-
-        for(int i = 0; i < positions.size(); i++) {
-            for(int j = i + 1; j < positions.size(); j++) {
-                newConstraints.add(new SameAngleConstraint(positions.get(i), positions.get(j)));
-            }
+        newConstraints.add(new SameRowConstraint(currentPosition.r));
+        newConstraints.add(new SameColumnConstraint(currentPosition.c));
+        newConstraints.add(new SameDiagonalConstraint(currentPosition));
+        for(Position position: positions) {
+            newConstraints.add(new SameAngleConstraint(position, currentPosition));
         }
 
         return newConstraints;
     }
 
-    private List<Position> determineNewPositions(List<Position> positions, int r, int c) {
+    private List<Position> determineNewPositions(List<Position> positions, Position currentPosition) {
         List<Position> newPositions = new ArrayList<>();
 
         newPositions.addAll(positions);
-        newPositions.add(new Position(r, c));
+        newPositions.add(currentPosition);
 
         return newPositions;
     }
