@@ -8,6 +8,7 @@ function App() {
   const [boardRepresentations, setBoardRepresentations] = useState([])
   const [requestInProgress, setRequestInProgress] = useState(false)
   const [errorMessage, setErrorMessage] = useState('')
+  const [nrSolutionsMessage, setNrSolutionsMessage] = useState('')
 
 
   function generateSolutions(e) {
@@ -19,7 +20,7 @@ function App() {
     }
 
     if (parseInt(n) > 14) {
-      if (!prompt("This computation will take a lot of time. Are you sure you want to continue? You're better of minin bitcoin instead ...")) {
+      if (!prompt("This computation will take a lot of time. Are you sure you want to continue? You're better of mining bitcoin instead ...")) {
         return
       }
     }
@@ -34,6 +35,7 @@ function App() {
           Promise.resolve(result.json())
             .then(data => {
               setBoardRepresentations(data)
+              setNrSolutionsMessage('Number of solutions: ' + data.length)
               setRequestInProgress(false)
             })
         } else {
@@ -70,7 +72,13 @@ function App() {
             </>
         }
       </form>
-
+      
+      {
+        nrSolutionsMessage && nrSolutionsMessage.length > 0 &&
+          <>
+            <p>{nrSolutionsMessage}</p>
+          </>
+      }
       {
         boardRepresentations && boardRepresentations.length > 0 &&
           <>
