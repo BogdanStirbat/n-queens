@@ -1,4 +1,4 @@
-This repository is a solution to the n-queens problem. In addition to the constraint that no 2 queens should attack each other, this solution also checks that no 3 queens can form an angle, at any given slope.
+This repository is a solution to the n-queens problem. In addition to the constraint that no 2 queens should attack each other, this solution also checks that no 3 queens are on a line, at any given slope.
 
 This repository consists of a backend application (that actually solves the problem) and a frontend application (a solution visualizer) . To view solutions in the browser, you need to start both applications.
 
