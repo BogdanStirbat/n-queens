@@ -20,7 +20,7 @@ function App() {
     }
 
     if (parseInt(n) > 14) {
-      if (!prompt("This computation will take a lot of time. Are you sure you want to continue? You're better of mining bitcoin instead ...")) {
+      if (!window.confirm("This computation will take a lot of time. Are you sure you want to continue? You're better of mining bitcoin instead ...")) {
         return
       }
     }
