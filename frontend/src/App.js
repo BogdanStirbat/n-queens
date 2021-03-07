@@ -13,7 +13,7 @@ function App() {
   function generateSolutions(e) {
     e.preventDefault();
 
-    if (parseInt(n) < 0) {
+    if (parseInt(n) <= 0) {
       setErrorMessage("Please insert a valid positive integer.")
       return
     }
