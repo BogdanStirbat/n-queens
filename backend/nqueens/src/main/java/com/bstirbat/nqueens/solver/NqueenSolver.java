@@ -30,9 +30,6 @@ public class NqueenSolver {
             String currentSolution = generateSolution(mat);
             solutions.add(currentSolution);
 
-            System.out.print(currentSolution);
-            System.out.println();
-            System.out.println();
             return;
         }
 
@@ -81,21 +78,6 @@ public class NqueenSolver {
         newPositions.add(currentPosition);
 
         return newPositions;
-    }
-
-    private void printSolution(int[][] mat) {
-        for(int i = 0; i < mat.length; i++) {
-            for(int j = 0; j < mat.length; j++) {
-                System.out.print(mat[i][j]);
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
-
-        System.out.println();
-        System.out.println();
-        System.out.println();
-        System.out.println();
     }
 
     private String generateSolution(int[][] mat) {

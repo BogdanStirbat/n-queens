@@ -4,12 +4,24 @@ import Square from './Square'
 
 function BoardRow(props) {
 
+  let squareValues = props.rowRepresentation.split('')
+
   return (
     <div className="row">
-        <Square color="white" lastBoard={props.lastBoard} filled="true" />
-        <Square color="black" lastBoard={props.lastBoard} />
-        <Square color="white" lastBoard={props.lastBoard} />
-        <Square color="black" lastBoard={props.lastBoard} filled="true" />
+      {
+        squareValues && squareValues.length > 0 && 
+          <>
+            {
+              squareValues.map((squareValue, id) => {
+                return <Square 
+                                key={id} 
+                                color={(id + props.id) % 2 == 0? "white": "black"}
+                                lastBoard={props.lastBoard}
+                                filled={squareValue == '1'? "true": "false"} />
+              })
+            }
+          </>
+      }
     </div>
   )
 }

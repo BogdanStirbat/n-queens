@@ -12,11 +12,19 @@ code {
     monospace;
 }
 
+.centered {
+  margin-left: 20px;
+  margin-top: 20px;
+}
+
+form {
+  margin-bottom: 30px;
+}
+
 .board {
   display: flex;
   flex-flow: column nowrap;
-  margin-left: 20px;
-  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .board .row {

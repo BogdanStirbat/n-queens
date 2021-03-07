@@ -1,6 +1,7 @@
 package com.bstirbat.nqueens.controller;
 
 import com.bstirbat.nqueens.service.NqueenService;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,6 +18,7 @@ public class NqueenController {
     }
 
     @GetMapping("/nqeens/{n}")
+    @CrossOrigin(origins = "*")
     public List<String> generateNqeenSolution(@PathVariable("n") Integer n) {
 
         return nqueenService.solve(n);
