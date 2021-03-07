@@ -1,16 +1,30 @@
 import React, { useState } from 'react'
 
 import Board from './components/Board'
-import BoardRow from './components/BoardRow';
 
 function App() {
 
   const [n, setN] = useState(0)
   const [boardRepresentations, setBoardRepresentations] = useState([])
+  const [requestInProgress, setRequestInProgress] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
 
 
   function generateSolutions(e) {
     e.preventDefault();
+
+    if (parseInt(n) < 0) {
+      setErrorMessage("Please insert a valid positive integer.")
+      return
+    }
+
+    if (parseInt(n) > 14) {
+      if (!prompt("This computation will take a lot of time. Are you sure you want to continue? You're better of minin bitcoin instead ...")) {
+        return
+      }
+    }
+
+    setRequestInProgress(true)
 
     fetch("http://localhost:8080/nqeens/" + n, {
       method: 'GET'
@@ -19,20 +33,19 @@ function App() {
         if (result.status == 200) {
           Promise.resolve(result.json())
             .then(data => {
-              console.log("Successfully received data from server.")
-              console.log(data)
               setBoardRepresentations(data)
+              setRequestInProgress(false)
             })
         } else {
-          console.log("Result status is: " + result.status)
+          setErrorMessage("Retrieving solutions from server failed, respose status: " + result.status)
+          setRequestInProgress(false)
         }
       }, 
       (error) => {
-        console.log("An error occurred.")
+        setErrorMessage("An error occurred while retrieving data from the server.")
+        setRequestInProgress(false)
       }
     )
-
-    console.log(n);
   }
 
 
@@ -41,9 +54,21 @@ function App() {
       <form>
         <label>Please insert the number of squares (a positive integer): </label>
         <br />
-        <input type="number" onChange={e => setN(e.target.value)} />
+        {
+          errorMessage && errorMessage.length > 0 &&
+            <div className="error-message">
+              <p>{errorMessage}</p>
+            </div>
+        }
+        <input type="number" onChange={e => {setN(e.target.value); setErrorMessage('')}} />
         <br />
         <input type="submit" onClick={generateSolutions} value="Generate solutions"/>
+        {
+          requestInProgress && 
+            <>
+              <p>Retrieving solutions from server, please wait ...</p>
+            </>
+        }
       </form>
 
       {
